@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+body {
+    background-color: #f2f2f2;
+}
+
+.contenedor {
+    margin-top: 55px;
+    margin-bottom: 40px;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    width: 100%;
+    background-color: #f2f2f2;
+    font-family: 'Roboto', sans-serif;
+}
+  
+.login-container form {
+    display: flex;
+    width: 400px;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.login-container h2 {
+    margin-bottom: 30px;
+    font-weight: 600;
+    font-size: 30px;
+    color: #333;
+}
+
+.login-container label {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+}
+  
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-container a {
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    margin: 10px 0;
+}
+  
+.login-container a:hover {
+    color: #555;
+}
+
+.login-container button {
+    padding: 10px 20px;
+    background-color: #ff8c00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-container button:hover {
+    background-color: #FFA500;
+} 
+  
+.login-container .volver {
+    background-color: #fff;
+    text-align: center;
+    margin: auto;
+    color: #FFA500;
+    width: 140px;
+    height: 40px;
+    margin-top: 25px;
+    border: 2px solid #FFA500;
+    border-radius: 5px;
+    font-size: 22px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+  
+.login-container .volver:hover {
+    background-color: #FFA500;
+    color: #ff8c00;
+    color: #fff;
+}

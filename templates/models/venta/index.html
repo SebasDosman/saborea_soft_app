@@ -1,0 +1,79 @@
+<head>
+    {# Cargamos la librería #} {% load bootstrap4 %} 
+    {# CSS Bootstrap #} {% bootstrap_css %} 
+    {# Widget Tweaks #} {% load widget_tweaks %} 
+    {# Archivos #} {% load static %}
+    <title>Sabor Loco</title>
+    <link href="{% static 'css/index.css' %}"  rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'assets/Logo.png' %}">
+    <script>
+        var usuario = JSON.parse(localStorage.getItem("usuario"));
+
+        if (!usuario) {
+            window.location.href = '/'
+        } else if (usuario.rol !== "Administrador") {
+            window.location.href = '/'
+        }
+    </script>
+    <!-- STATIC_URL -->
+</head>
+
+<body class = "bodi">
+    <!-- Al final del body -->
+    {# JS y jQuery Bootstrap #} 
+    {% include 'components/navbar/navbar.html' %}
+
+    <div align="center" class="btn_crear mb-3 mt-3">
+        <!-- Boton crear -->
+        <a href="crear" type="button" class="btn text-white" style="background-color: #ff8c00;">Crear</a>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th width="35%">Id venta</th>
+                <th>Id factura</th>
+                <th>Id producto</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Recorremos los objetos o registros que tenemos en nuestra tabla 'postres' y los listamos -->
+            {% for ventas in object_list %}
+            <tr>
+                <td>{{ ventas.id_venta }}</td>
+                <td>{{ ventas.id_factura }}</td>
+                <td>{{ ventas.id_producto }}</td>
+                <td>{{ ventas.cantidad }}</td>
+                <td>
+                <form method="POST" action="eliminar/{{ventas.id_venta}}">
+                    {% csrf_token %}
+                    <div class="btn-group">
+                        <!-- Creamos 3 botones que son ver, Editar y Eliminar, nos sirven para gestionar nuestros registros o postres -->
+                        <a href="detalle/{{ventas.id_venta}}" title="Ver" type="button" class="btn btn-success" >Ver</a>
+                        <a href="editar/{{ventas.id_venta}}" title="Editar" type="button" class="btn btn-primary" >Editar</a>
+                        <button class="btn btn-danger" onclick="return eliminar();" type="submit">Eliminar</button>
+                    </div>
+                </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-center">
+        <!-- Boton Volver a Administrador -->
+        <a href="/administrador" class="btn text-white mb-5" style="background-color: #ff8c00;">Volver</a>
+    </div>
+
+    <script type="text/javascript">
+        function eliminar() {
+        var x = confirm("Eliminar venta?");
+        if (x)
+            return true;
+        else
+            return false;
+        }
+    </script>
+</body>
+  

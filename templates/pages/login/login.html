@@ -1,0 +1,122 @@
+<head>
+    {# Cargamos la librería #} {% load bootstrap4 %} 
+    {# CSS Bootstrap #} {% bootstrap_css %} 
+    {# Widget Tweaks #} {% load widget_tweaks %} 
+    {% load static %}
+    <title>Sabor Loco</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/Logo.png' %}">
+    {# Archivos #} {% load static %}
+    <!-- STATIC_URL -->
+</head>
+<body>
+    <!--Llamamos al navabar-->
+    {% include 'components/navbar/navbar.html' %}
+
+    <div class = "contenedor">
+        
+        <div class="login-container">
+
+            <form>
+                <h2>Iniciar sesión</h2>
+                <span class="alert alert-danger" id="error_msg">Credenciales invalidas</span>
+                <label for="username">Nombre de usuario</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Contraseña</label>
+
+                <input type="password" id="password" name="password" required>
+                <p>No tienes cuenta <a href="registrar"><u>Registrate</u></a></p>
+                <button class = "boton"  onclick="login( event )">Iniciar sesión</button>
+
+                <a type = "submit" class = "volver" href="/" >Volver</a>
+            </form>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        var error       = document.getElementById("error_msg")
+        var usuario     = document.getElementById("username")
+        var contrasena  = document.getElementById("password")
+
+        error.style.display = "none"
+
+        var credenciales = [
+          {% for obj in credencial_list %}
+            {
+              usuario   : "{{ obj.usuario_credencial}}",
+              correo    : "{{ obj.correo }}",
+              password  : "{{ obj.contrasenia_credencial}}",
+            },
+          {% endfor %}
+        ];
+    
+        var  usuarios = [
+          {% for obj in  usuario_list %}
+            {
+              correo: "{{ obj.correo_id }}",
+              rol   : "{{ obj.rol}}"
+            },
+          {% endfor %}
+        ];
+            
+        const login = ( event ) =>{
+            event.preventDefault()
+
+            const user = usuario.value
+            const pass = password.value
+
+            const credencial = credenciales.filter( cred => cred.usuario == user  )
+            
+            if( credencial.length !== 0){
+                //Existe credencial
+                if( credencial[0].password == pass + "" ){
+                    //Existe
+                    const user =  obtenerUsuario( credencial[0].usuario, credencial[0].correo )
+
+                    if( user.length === 0 ){
+
+                        localStorage.removeItem("usuario");
+                        localStorage.setItem("usuario", JSON.stringify( user[0] ) );
+                        localStorage.setItem("login",true);
+                        window.location.href = '/'
+                        
+                    }else {
+                        localStorage.removeItem("usuario");
+                        localStorage.setItem("usuario", JSON.stringify( user[0] ) );
+                        localStorage.setItem("login",true);
+
+                        if( user[0].rol == "Administrador"){
+                            window.location.href = '/administrador'
+                        }
+                        else{
+                            window.location.href = '/'
+                        }
+                    }
+                    error.style.display = "none"
+                }else{
+                    error.style.display = "block"
+                    localStorage.removeItem("usuario")
+                    localStorage.removeItem("login")
+                }
+            }
+            else{
+                error.style.display = "block"
+                localStorage.removeItem("usuario")
+                localStorage.removeItem("login")
+            }
+        }
+
+        const obtenerUsuario = ( user, correo ) => {
+            
+            const usuario = usuarios.filter( us => correo === us.correo)
+            return usuario
+        }
+        
+    </script>
+
+    <!--Llamamos al footer-->
+    {% include 'components/footer/footer.html' %}
+</body>

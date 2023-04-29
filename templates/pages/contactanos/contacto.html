@@ -1,0 +1,36 @@
+<head>
+    {# Cargamos la librería #} {% load bootstrap4 %} 
+    {# CSS Bootstrap #} {% bootstrap_css %} 
+    {# Widget Tweaks #} {% load widget_tweaks %} 
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/contacto.css' %}">
+    <title>Sabor Loco</title>
+    <link rel="shortcut icon" href="{% static 'assets/Logo.png' %}">
+    {# Archivos #} {% load static %}
+    <!-- STATIC_URL -->
+</head>
+<body>
+    <div class = "contenedor">
+        <!--Llamamos al navabar-->
+        {% include 'components/navbar/navbar.html' %}
+        
+        <div class = "contenedor-contacto">
+        
+            <h1 class="titular">Contáctanos</h1>
+
+            <form>
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" placeholder="Ingresa tu nombre" required>
+                <label for="email">Correo electrónico:</label>
+                <input type="email" id="email" name="email" placeholder="Ingresa tu correo electrónico" required>
+                <label for="message">Deja tu opinión:</label>
+                <textarea id="message" name="message" placeholder="Escribe tu mensaje aquí" required></textarea>
+                <input class = "boton" type="submit" value="Enviar">
+              </form>
+
+        </div>
+
+        <!--Llamamos al footer-->
+        {% include 'components/footer/footer.html' %}
+    </div>
+</body>

@@ -1,0 +1,39 @@
+<head>
+    {# Cargamos la librería #} {% load bootstrap4 %} 
+    {# CSS Bootstrap #} {% bootstrap_css %} 
+    {# Widget Tweaks #} {% load widget_tweaks %} 
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+    <title>Sabor Loco</title>
+    <link rel="shortcut icon" href="{% static 'assets/Logo.png' %}">
+    {# Archivos #} {% load static %}
+    <!-- STATIC_URL -->
+</head>
+<body>
+    <!--Llamamos al navabar-->
+    {% include 'components/navbar/navbar.html' %}
+    <div class = "contenedor">
+        <main class="main">
+            <section>
+                <div class = "titular">
+                    <div class = "titulo1">
+                        <h2 class = "subtitulos">Bienvenidos a Sabor Loco</h2>
+                        <p>¡Nuestro enfoque está en la creación de platos únicos y deliciosos que te dejarán con ganas de más! Desde auténticos platillos mexicanos hasta fusiones internacionales creativas, nuestra cocina tiene algo para todos los gustos.</p>
+                    </div>
+                    <div class = "imagen">
+                        <img src = "{% static 'assets/restaurante.png' %}"></img>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class = "menus">
+                    <h2 class = "subtitulos">Nuestro Menú</h2>
+                    <p>Echa un vistazo a nuestro menú y disfruta de nuestra variedad de opciones que incluyen entradas, platos fuertes, postres y bebidas.</p>
+                    <a class = "boton" href="/menu">Ver Menú Completo</a>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!--Llamamos al footer-->
+    {% include 'components/footer/footer.html' %}
+</body>

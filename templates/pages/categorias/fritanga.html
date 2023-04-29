@@ -1,0 +1,69 @@
+<head>
+    {# Cargamos la librería #} {% load bootstrap4 %} 
+    {# CSS Bootstrap #} {% bootstrap_css %} 
+    {# Widget Tweaks #} {% load widget_tweaks %} 
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/fritanga.css' %}">
+    <title>Sabor Loco</title>
+    <link rel="shortcut icon" href="{% static 'assets/Logo.png' %}">
+    {# Archivos #} {% load static %}
+    <!-- STATIC_URL -->
+</head>
+<body>
+    <div class = "contenedor">
+        {% bootstrap_javascript jquery='full' %}
+        <!--Llamamos al navabar-->
+        {% include 'components/navbar/navbar.html' %}
+
+        <h1 class = "titular">Fritangas</h1>
+
+        <div class = "tarjetas">          
+            {% for productos in object_list %}
+            <div class="card">
+                <img src="{% static '/uploads/'%}{{productos.imagen}}" alt="{{productos.nombre_prod}}" width="200px">
+                <div class="info">
+                    <h2>{{ productos.nombre_prod }}</h2>
+                    <p>{{ productos.descripcion }}</p>
+                    <p class="price">{{ productos.precio }}</p>
+                    <button class="order-btn" data-id="{{ productos.id_producto }}">Ordenar ahora</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!--Llamamos al footer-->
+        {% include 'components/footer/footer.html' %}
+    </div>
+
+    <script>
+        // Obtener todos los botones de "Ordenar ahora"
+        const orderButtons = document.querySelectorAll('.order-btn');
+      
+        // Obtener la tarjeta de pedido pendiente
+        const pedidoPendiente = document.querySelector('.pedido-pendiente');
+      
+        // Agregar un evento de clic a cada botón
+        orderButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            // Obtener el nombre, precio y id del producto
+            const productId = button.getAttribute('data-id');
+            const productName = button.parentNode.querySelector('h2').textContent;
+            const productPrice = button.parentNode.querySelector('.price').textContent;
+      
+            // Obtener el array de productos del local storage o crear uno nuevo si no existe
+            let productsArray = JSON.parse(localStorage.getItem('productos')) || [];
+      
+            // Agregar el nuevo producto al array
+            productsArray.push({
+                id: productId,
+                nombre_prod: productName,
+                precio: productPrice,
+            });
+      
+            // Guardar el array de productos en el local storage
+            localStorage.setItem('productos', JSON.stringify(productsArray));
+    
+          });
+        });
+    </script>
+    
+</body>

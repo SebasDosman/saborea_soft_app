@@ -1,0 +1,51 @@
+{% load static %}
+
+<link href="{% static 'css/navbar.css' %}"  rel="stylesheet">
+
+<div>
+    <header class = "cabecera"> 
+
+        <nav class = "barra navbar">
+
+            <a href="/" class="navbar-brand">
+                <img class = "imagen" src = "{% static 'assets/Logo.png' %}">
+                <h1 class = "titulo " >Sabor Loco</h1>
+            </a>
+
+            <ul class = "lista">    
+                <li><a class = "a" href="/menu">Productos</a></li>
+                <li><a class = "a" href="/categorias">Categorias</a></li>
+                <li><a class = "a" href="/pedidos">Tus Pedidos</a></li>
+                <li><a class = "a" href="/contactanos">Contacto</a></li>
+                <li>
+                    <span id="perfil">
+                        <a class = "boton" href="/perfil">Perfil</a>
+                    </span>
+                    {% comment %} <span id="admin">
+                        <a class = "boton" href="/administrador">Admin</a>
+                    </span> {% endcomment %}
+                    <span id="login">
+                        <a class = "a" href="/login">Login</a>
+                    </span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <script>
+
+        var login_nav = document.getElementById("login")
+        var perfil = document.getElementById("perfil")
+
+        if (localStorage.getItem("login") && JSON.parse(localStorage.getItem("login"))) {
+            // El valor de "login" existe y es "true"
+            perfil.style.display = "block"; // Muestra el perfil
+            login_nav.style.display = "none";
+        } else {
+            login_nav.style.display = "block";
+            perfil.style.display = "none"; // Oculta el perfil
+        }
+
+    </script>
+
+</div>

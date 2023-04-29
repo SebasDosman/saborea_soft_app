@@ -1,0 +1,98 @@
+<head>
+    {# Cargamos la librería #} {% load bootstrap4 %} 
+    {# CSS Bootstrap #} {% bootstrap_css %} 
+    {# Widget Tweaks #} {% load widget_tweaks %} 
+    {# Archivos #} {% load static %}
+    <link href="{% static 'css/cruds.css' %}"  rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'assets/Logo.png' %}">
+    <title>Sabor Loco</title>
+    <script>
+        var login = JSON.parse(localStorage.getItem("login"));
+
+        if (!login) {
+            window.location.href = '/'
+        }
+    </script>
+    <!-- STATIC_URL -->
+</head>
+  
+<body class="text-center justify-content-center">
+    <!-- Al final del body -->
+    {# JS y jQuery Bootstrap #} 
+    {% bootstrap_javascript jquery='full' %}
+    
+    <!--Llamamos al navabar-->
+    {% include 'components/navbar/navbar.html' %}
+
+    <form method="post" enctype="multipart/form-data">
+        <!-- Pasamos el 'csrf_token' de seguridad para poder crear un nuevo registro -->
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="num_identificacion" class="txt_negrita">No. Identificación:</label>
+            {{ form.num_identificacion|add_class:"form-control"|attr:"type:number" }}
+            <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
+        </div>
+
+        <div class="form-group">
+            <label for="tipo_documento" class="txt_negrita">Tipo documento:</label>
+            <select name="{{ form.tipo_documento.name }}" id="{{ form.tipo_documento.id }}" class = "form-control">
+                <option value="Cedula">Cedula</option>
+                <option value="T. Identidad">T. Identidad</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="nombre" class="txt_negrita">Nombre:</label>
+            {{ form.nombre|add_class:"form-control"|attr:"type:text" }}
+        </div>
+
+        <div class="form-group">
+            <label for="apellido" class="txt_negrita">Apellido:</label>
+            {{ form.apellido|add_class:"form-control"|attr:"type:text"}}
+        </div>
+
+        <div class="form-group" style="display:none">
+            <label for="rol" class="txt_negrita">Rol</label>
+            {{ form.rol|add_class:"form-control"|attr:"type:text"|attr:"value:Cliente"|attr:"readonly:True"}}
+        </div>
+
+        <div class="form-group">
+            <label for="direccion" class="txt_negrita">Dirección:</label>
+            {{ form.direccion|add_class:"form-control"}}
+        </div>
+
+        <div class="form-group">
+            <label for="telefono" class="txt_negrita">Teléfono:</label>
+            {{ form.telefono|add_class:"form-control"|attr:"type:number"}}
+        </div>
+
+        <div class="form-group">
+            <label for="fecha_nacimiento" class="txt_negrita">Fecha de nacimiento:</label>
+            {{ form.fecha_nacimiento|add_class:"form-control"|attr:"type:date"}}
+        </div>
+
+        <div class="form-group">
+            <label for="correo" class="txt_negrita">Correo:</label>
+            {{ form.correo|add_class:"form-control"|attr:"type:email"}}
+        </div>
+
+        <div class = "botones">
+            <button type="submit" class="btn btn-primary">Aceptar</button>
+            <a href="./" type="submit" class="btn btn-primary">Cancelar</a>
+            <button id = "cerrar-sesion" class = "btn btn-primary">Log out</button>
+        </div>
+    </form>
+    
+    <script>
+        document.getElementById('cerrar-sesion').addEventListener('click', function(event) {
+            event.preventDefault();
+            localStorage.removeItem("usuario")
+            localStorage.removeItem("login")
+            window.location.href = '../login'
+        });
+    </script>
+
+    <!--Llamamos al footer-->
+    {% include 'components/footer/footer.html' %}
+</body>

@@ -1,0 +1,11 @@
+# Carpeta de cache de Python
+__pycache__/
+*.pyc
+*.pyo
+*~
+
+# Archivos en MAC
+*.DS_Store
+
+# Carpeta static
+saborea_soft/static/uploads/static/uploads/

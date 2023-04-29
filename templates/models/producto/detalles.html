@@ -1,0 +1,78 @@
+<head>
+  {# Cargamos la librería #} {% load bootstrap4 %} 
+  {# CSS Bootstrap #} {% bootstrap_css %} 
+  {# Widget Tweaks #} {% load widget_tweaks %} 
+  {# Archivos #} {% load static %}
+  <title>Sabor Loco</title>
+  <link rel="shortcut icon" href="{% static 'assets/Logo.png' %}">
+  <script>
+    var usuario = JSON.parse(localStorage.getItem("usuario"));
+
+    if (!usuario) {
+      window.location.href = '/'
+    } else if (usuario.rol !== "Administrador") {
+      window.location.href = '/'
+    }
+</script>
+  <!-- STATIC_URL -->
+</head>
+  
+<body class="text-center justify-content-center">
+  <!-- Al final del body -->
+  {# JS y jQuery Bootstrap #} {% bootstrap_javascript jquery='full' %}
+
+  <h4>Detalles</h4>
+
+  <p>
+    <span class="txt_negrita">Id producto:</span> <br />
+    {{object.id_producto}}
+  </p>
+
+  <p>
+    <span class="txt_negrita">Nombre producto:</span> <br />
+    {{object.nombre_prod}}
+  </p>
+
+  <p>
+    <span class="txt_negrita">Descripción:</span> <br />
+    {{object.descripcion}}
+  </p>
+
+  <p>
+    <span class="txt_negrita">Imagen:</span> <br />
+    {{object.imagen}}
+  </p>
+  
+  <p>
+    <span class="txt_negrita">Categoría:</span> <br />
+    {{object.categoria}}
+  </p>
+
+  <p>
+    <span class="txt_negrita">Cantidad:</span> <br />
+    {{object.cantidad}}
+  </p>
+
+  <p>
+    <span class="txt_negrita">Precio:</span> <br />
+    {{object.precio}}
+  </p>
+
+  <p>
+    <span class="txt_negrita">Id descuento:</span> <br />
+    {{object.id_descuento}}
+  </p>
+
+  <p>
+    <span class="txt_negrita">Creado:</span> <br />
+    {{object.created_at}}
+  </p>
+  
+  <p>
+    <span class="txt_negrita">Actualizado:</span> <br />
+    {{object.updated_at}}
+  </p>
+
+  <!-- Botón para volver a la vista principal (Home) -->
+  <a href="../" type="submit" class="btn btn-primary">Volver</a>
+</body>

@@ -1,0 +1,58 @@
+<head>
+    {# Cargamos la librería #} {% load bootstrap4 %} 
+    {# CSS Bootstrap #} {% bootstrap_css %} 
+    {# Widget Tweaks #} {% load widget_tweaks %} 
+    {% load static %}
+    <title>Sabor Loco</title>
+    <link href="{% static 'css/inicioAdmin.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'assets/Logo.png' %}">
+    {# Archivos #} {% load static %}
+
+    <script>
+        var usuarioString = localStorage.getItem("usuario");
+
+        if (!usuarioString || typeof usuarioString === 'undefined') {
+            window.location.href = '/';
+        } else {
+            usuario = JSON.parse(usuarioString);
+            if (usuario.rol !== "Administrador") {
+                window.location.href = '/';
+            }
+        }
+    </script>
+    <!-- STATIC_URL -->
+</head>
+<body>
+    <div class = "contenedor">
+        <!--Llamamos al navabar-->
+        {% include 'components/navbar/navbar.html' %}
+        
+        <div class="admin-panel" style="height: 540px;">
+
+            <h2>Bienvenido Administrador</h2>
+
+            <ul>
+                <li><a href="/usuario">Acceder a Usuarios</a></li>
+                <li><a href="/credencial">Acceder a Credenciales</a></li>
+                <li><a href="/producto">Acceder a Productos</a></li>
+                <li><a href="/descuento">Acceder a Descuentos</a></li>
+                <li><a href="/factura">Acceder a Facturas</a></li>
+                <li><a href="/restaurante">Acceder a Restaurate</a></li>
+                <li><a href="" id="cerrar-sesion">Cerrar sesión</a></li>
+            </ul>
+
+        </div>
+
+        <script>
+            document.getElementById('cerrar-sesion').addEventListener('click', function(event) {
+                event.preventDefault();
+                localStorage.removeItem("usuario")
+                localStorage.removeItem("login")
+                window.location.href = '../login'
+            });
+        </script>
+        <!--Llamamos al footer-->
+        {% include 'components/footer/footer.html' %}
+    </div>
+        
+</body>

@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.titular {
+    width: 100%;
+	padding: 30px;
+    text-align: center;
+    font-size: 40px;
+    color: #333;
+    font-weight: 550;
+}
+
+.contenedor{
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f2f2f2;
+}
+
+.contenedor-contacto h1 {
+    text-align: center;
+    color: #333;
+    margin: 40px 0;
+}
+
+.contenedor-contacto form {
+    max-width: 500px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+    
+.contenedor-contacto input[type="text"], input[type="email"], textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 16px;
+    resize: none;
+}
+    
+.contenedor-contacto input[type="submit"] {
+    background-color: #ff8c00;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 6px 180px;
+}
+
+.contenedor-contacto input[type="submit"]:hover {
+    background-color: #FFA500;
+}

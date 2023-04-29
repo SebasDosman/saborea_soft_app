@@ -1,0 +1,92 @@
+<head>
+    {# Cargamos la librería #} {% load bootstrap4 %} 
+    {# CSS Bootstrap #} {% bootstrap_css %} 
+    {# Widget Tweaks #} {% load widget_tweaks %} 
+    {% load static %}
+    <title>Sabor Loco</title>
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/Logo.png' %}">
+    {# Archivos #} {% load static %}
+    <!-- STATIC_URL -->
+</head>
+<body>
+    <div class = "contenedor">
+        
+        <!--Llamamos al navabar-->
+        {% include 'components/navbar/navbar.html' %}
+
+        <h1 class = "titular">Menú</h1>
+
+        <div class="menu-container">
+
+            <div class="menu-section hamburguesa">
+                <h2>Hamburguesas</h2>
+                <ul>
+                    {% for producto in hamburguesas %}
+                    <li>
+                        <h3>{{ producto.nombre_prod }}</h3>
+                        <p>{{ producto.descripcion }}</p>
+                        <p class="price">${{ producto.precio }}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+          
+            <div class="menu-section perros">
+                <h2>Perros</h2>
+                <ul>
+                    {% for producto in perros%}
+                    <li>
+                        <h3>{{ producto.nombre_prod }}</h3>
+                        <p>{{ producto.descripcion }}</p>
+                        <p class="price">${{ producto.precio }}</p>
+                    </li>
+                   {% endfor %}
+                </ul>
+            </div>
+          
+            <div class="menu-section salchipapa">
+                <h2>Salchipapas</h2>
+                <ul>
+                    {% for producto in salchipapas%}
+                    <li>
+                        <h3>{{ producto.nombre_prod }}</h3>
+                        <p>{{ producto.descripcion }}</p>
+                        <p class="price">${{ producto.precio }}</p>
+                    </li>
+                   {% endfor %}
+                </ul>
+            </div>
+          
+            <div class="menu-section fritangas">
+                <h2>Fritangas</h2>
+                <ul>
+                    {% for producto in fritangas %}
+                    <li>
+                        <h3>{{ producto.nombre_prod }}</h3>
+                        <p>{{ producto.descripcion }}</p>
+                        <p class="price">${{ producto.precio }}</p>
+                    </li>
+                   {% endfor %}
+                </ul>
+            </div>
+            <div class="menu-section bebidas">
+                <h2>Bebidas</h2>
+                <ul>
+                    {% for producto in bebidas %}
+                    <li>
+                        <h3>{{ producto.nombre_prod }}</h3>
+                        <p>{{ producto.descripcion }}</p>
+                        <p class="price">${{ producto.precio }}</p>
+                    </li>
+                   {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+
+        <!--Llamamos al footer-->
+        {% include 'components/footer/footer.html' %}
+
+    </div>
+</body>

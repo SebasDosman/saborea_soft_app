@@ -1,0 +1,212 @@
+<head>
+    {# Cargamos la librería #} {% load bootstrap4 %} 
+    {# CSS Bootstrap #} {% bootstrap_css %} 
+    {# Widget Tweaks #} {% load widget_tweaks %} 
+    {% load static %}
+    <title>Sabor Loco</title>
+    <link rel="stylesheet" href="{% static 'css/pedidos.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/Logo.png' %}">
+    {# Archivos #} {% load static %}
+    <!-- STATIC_URL -->
+</head>
+<body>
+  <!--Llamamos al navabar-->
+  {% include 'components/navbar/navbar.html' %}
+  <div class = "contenedor">
+      
+    <h2 class = "titular">Tus pedidos <span id="user"></span></h2>
+
+    <div class="cart-container">
+
+      <h2 class = "subtitulo">Cuenta</h2>
+
+      <ul class="cart-items" id="cart-items">
+        <!-- Aqui van los productos -->
+      </ul>
+
+      <div class="cart-total">
+        <p>Total: <span id="cart-total"></span></p>
+        <button type = "submit" id = "pagar" class="checkout-button">Pagar</button>
+      </div>
+
+      <div id="factura-form">
+        {% csrf_token %}
+      </div>
+
+    </div>
+      
+    <!--Llamamos al footer-->
+    {% include 'components/footer/footer.html' %}
+
+  </div>
+
+  <script>
+    const products = JSON.parse(localStorage.getItem('productos')) || [];
+    const cartItems = document.getElementById('cart-items');
+    let total = 0;
+    var user = document.getElementById("user");
+    var usuario = JSON.parse(localStorage.getItem('usuario'));
+
+    if (usuario) {
+      user.style.display = "block";
+      document.getElementById("user").innerHTML = usuario.correo;
+    } else {
+      user.style.display = "none";
+    }
+
+    if (products.length === 0) {
+      const pagar = document.getElementById('pagar');
+      pagar.disabled = true;
+    }
+
+    products.forEach((product) => {
+      const item = document.createElement('li');
+      item.classList.add('cart-item');
+      item.innerHTML = `
+        <img src="#" alt="${product.nombre_prod}">
+        <div class="item-details">
+          <h3>${product.nombre_prod}</h3>
+          <p>Precio: $${product.precio}</p>
+          <button class="remove-item">Eliminar</button>
+        </div>
+      `;
+      cartItems.appendChild(item);
+
+      // Sumar el precio del producto al total
+      total += parseFloat(product.precio);
+    });
+
+    // Mostrar el total en el elemento correspondiente del DOM
+    document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
+
+    // Agregar un evento de clic a todos los botones Eliminar
+    document.querySelectorAll('.remove-item').forEach((button) => {
+      button.addEventListener('click', () => {
+        // Obtener el nombre del producto que se va a eliminar
+        const productName = button.parentElement.querySelector('h3').textContent;
+
+        // Eliminar el primer producto con el nombre correspondiente
+        let productRemoved = false;
+        const newProducts = products.filter((product) => {
+          if (product.nombre_prod === productName && !productRemoved) {
+            productRemoved = true;
+            return false;
+          }
+          return true;
+        });
+
+        // Actualizar el local storage con el nuevo arreglo de productos
+        localStorage.setItem('productos', JSON.stringify(newProducts));
+
+        // Recargar la página para reflejar los cambios
+        window.location.reload();
+      });
+    });
+
+
+    function generarFactura() {
+      const now = new Date();
+      const offset = now.getTimezoneOffset();
+      const sign = offset > 0 ? "-" : "+";
+      const idFact = now.getTime();
+
+      const pad = function(num) {
+        const norm = Math.floor(Math.abs(num));
+        return (norm < 10 ? "0" : "") + norm;
+      };
+
+      const fechaCompra = now.getFullYear() +
+        "-" + pad(now.getMonth() + 1) +
+        "-" + pad(now.getDate()) +
+        " " + pad(now.getHours()) +
+        ":" + pad(now.getMinutes()) +
+        ":" + pad(now.getSeconds()) +
+        "." + pad(now.getMilliseconds()) +
+        " " + sign + pad(offset / 60) +
+        pad(offset % 60);
+
+      const totalPago = total.toFixed(2);
+
+      const facturaForm = document.createElement('form');
+      facturaForm.method = 'post';
+      facturaForm.enctype = 'multipart/form-data';
+
+      const csrfTokenDiv = document.createElement('div');
+      csrfTokenDiv.innerHTML = '{% csrf_token %}';
+      facturaForm.appendChild(csrfTokenDiv);
+
+      // Generar los campos del formulario con los datos correspondientes
+      const idFacturaInput = document.createElement('input');
+      idFacturaInput.type = 'number';
+      idFacturaInput.name = 'id_factura';
+      idFacturaInput.value = idFact;
+      idFacturaInput.type = 'hidden';
+      facturaForm.appendChild(idFacturaInput);
+      
+      const fechaCompraInput = document.createElement('input');
+      fechaCompraInput.type = 'text';
+      fechaCompraInput.name = 'fecha_compra';
+      fechaCompraInput.value = fechaCompra;
+      facturaForm.appendChild(fechaCompraInput);
+      fechaCompraInput.type = 'hidden';
+      
+      const totalPagoInput = document.createElement('input');
+      totalPagoInput.type = 'number';
+      totalPagoInput.name = 'total_pago';
+      totalPagoInput.value = totalPago;
+      totalPagoInput.type = 'hidden';
+      facturaForm.appendChild(totalPagoInput);
+      
+      const nitRestauranteInput = document.createElement('input');
+      nitRestauranteInput.type = 'text';
+      nitRestauranteInput.name = 'nit_restaurante_id';
+      nitRestauranteInput.value = 1;
+      facturaForm.appendChild(nitRestauranteInput);
+      nitRestauranteInput.type = 'hidden';
+
+      products.forEach((producto, index) => {
+        const idVentaInput = document.createElement('input');
+        idVentaInput.type = 'number';
+        idVentaInput.name = `id_venta`;
+        idVentaInput.value = idFact;
+        idVentaInput.type = 'hidden';
+        facturaForm.appendChild(idVentaInput);
+    
+        const cantidadInput = document.createElement('input');
+        cantidadInput.type = 'number';
+        cantidadInput.name = `cantidad`;
+        cantidadInput.value = 1;
+        cantidadInput.type = 'hidden';
+        facturaForm.appendChild(cantidadInput);
+
+        const idFacturaidInput = document.createElement('input');
+        idFacturaidInput.type = 'text';
+        idFacturaidInput.name = 'id_factura_id';
+        idFacturaidInput.value = idFact;
+        idFacturaidInput.type = 'hidden';
+        facturaForm.appendChild(idFacturaidInput);
+
+        const idProductoidInput = document.createElement('input');
+        idProductoidInput.type = 'text';
+        idProductoidInput.name = 'id_producto_id';
+        idProductoidInput.value = producto.id;
+        idProductoidInput.type = 'hidden';
+        facturaForm.appendChild(idProductoidInput);
+
+      });
+
+      const checkoutButton = document.querySelector('.checkout-button');
+      checkoutButton.style.display = 'none';
+      const facturaFormContainer = document.getElementById('factura-form');
+      facturaFormContainer.appendChild(facturaForm);
+      facturaFormContainer.querySelector('form').submit();
+    }
+
+    document.querySelector('.checkout-button').addEventListener('click', () => {
+      generarFactura();
+      localStorage.removeItem('productos');
+    });
+
+  </script>
+
+</body>
