@@ -71,13 +71,13 @@
 
     <div class="form-group">
       <label for="precio" class="txt_negrita">Precio</label>
-      {{ form.precio|add_class:"form-control"|attr:"type:number"}}
+      {{ form.precio|add_class:"form-control"|attr:"type:number"|attr:"id:id_precio"}}
       <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
     </div>
-
+    
     <div class="form-group">
       <label for="id_descuento" class="txt_negrita">Id descuento</label>
-      {{ form.id_descuento|add_class:"form-control"|attr:"type:number"}}
+      {{ form.id_descuento|add_class:"form-control"|attr:"type:number"|attr:"id:id_descuento"}}
       <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
     </div>
 
@@ -95,5 +95,27 @@
       else
         return false;
     }
+
+    $(document).ready(function() {
+      $('#id_descuento').change(function() {
+        var descuentoId = $(this).val();
+  
+        // Realizar una solicitud AJAX al servidor para obtener el descuento
+        $.ajax({
+          url: '/ruta/para/obtener/descuento/' + descuentoId,  // Reemplaza '/ruta/para/obtener/descuento/' con la ruta adecuada en tu servidor
+          method: 'GET',
+          success: function(response) {
+            // Actualizar el campo de precio con el descuento aplicado
+            var precio = parseFloat($('#id_precio').val());
+            var descuento = parseFloat(response.descuento);
+            var precioConDescuento = precio - descuento;
+            $('#id_precio').val(precioConDescuento.toFixed(2));
+          },
+          error: function(xhr, textStatus, errorThrown) {
+            console.log('Error:', errorThrown);
+          }
+        });
+      });
+    });
   </script>
 </body>

@@ -49,21 +49,21 @@
 
     if (usuario) {
       user.style.display = "block";
-      document.getElementById("user").innerHTML = usuario.correo;
+      document.getElementById("user").innerHTML = usuario.usuario;
     } else {
       user.style.display = "none";
     }
 
-    if (products.length === 0) {
+    if (products.length === 0 || products === null) {
       const pagar = document.getElementById('pagar');
-      pagar.disabled = true;
+      pagar.style.display = "none";
     }
 
     products.forEach((product) => {
       const item = document.createElement('li');
       item.classList.add('cart-item');
       item.innerHTML = `
-        <img src="#" alt="${product.nombre_prod}">
+      <img src="/static/uploads/${product.imagen}" alt="${product.nombre_prod}">
         <div class="item-details">
           <h3>${product.nombre_prod}</h3>
           <p>Precio: $${product.precio}</p>
@@ -106,9 +106,9 @@
 
     function generarFactura() {
       const now = new Date();
+      const idFact = now.getTime();
       const offset = now.getTimezoneOffset();
       const sign = offset > 0 ? "-" : "+";
-      const idFact = now.getTime();
 
       const pad = function(num) {
         const norm = Math.floor(Math.abs(num));
@@ -165,36 +165,49 @@
       nitRestauranteInput.type = 'hidden';
 
       products.forEach((producto, index) => {
-        const idVentaInput = document.createElement('input');
-        idVentaInput.type = 'number';
-        idVentaInput.name = `id_venta`;
-        idVentaInput.value = idFact;
-        idVentaInput.type = 'hidden';
-        facturaForm.appendChild(idVentaInput);
-    
-        const cantidadInput = document.createElement('input');
-        cantidadInput.type = 'number';
-        cantidadInput.name = `cantidad`;
-        cantidadInput.value = 1;
-        cantidadInput.type = 'hidden';
-        facturaForm.appendChild(cantidadInput);
+        if (producto.cantidad > 0) {
 
-        const idFacturaidInput = document.createElement('input');
-        idFacturaidInput.type = 'text';
-        idFacturaidInput.name = 'id_factura_id';
-        idFacturaidInput.value = idFact;
-        idFacturaidInput.type = 'hidden';
-        facturaForm.appendChild(idFacturaidInput);
+          const productosStorage = JSON.parse(localStorage.getItem('productos'));
 
-        const idProductoidInput = document.createElement('input');
-        idProductoidInput.type = 'text';
-        idProductoidInput.name = 'id_producto_id';
-        idProductoidInput.value = producto.id;
-        idProductoidInput.type = 'hidden';
-        facturaForm.appendChild(idProductoidInput);
+          // Restar 1 a la cantidad de todos los objetos con el mismo nombre
+          productosStorage.forEach((item) => {
+            if (item.nombre_prod === producto.nombre_prod) {
+              item.cantidad -= 1;
+            }
+          });
 
+          localStorage.setItem('productos', JSON.stringify(productosStorage));
+
+          const idVentaInput = document.createElement('input');
+          idVentaInput.type = 'number';
+          idVentaInput.name = `id_venta_${index}`;
+          idVentaInput.value = idFact;
+          idVentaInput.type = 'hidden';
+          facturaForm.appendChild(idVentaInput);
+      
+          const cantidadInput = document.createElement('input');
+          cantidadInput.type = 'number';
+          cantidadInput.name = `cantidad_${index}`;
+          cantidadInput.value = 1;
+          cantidadInput.type = 'hidden';
+          facturaForm.appendChild(cantidadInput);
+
+          const idFacturaidInput = document.createElement('input');
+          idFacturaidInput.type = 'text';
+          idFacturaidInput.name = `id_factura_id_${index}`;
+          idFacturaidInput.value = idFact;
+          idFacturaidInput.type = 'hidden';
+          facturaForm.appendChild(idFacturaidInput);
+
+          const idProductoidInput = document.createElement('input');
+          idProductoidInput.type = 'text';
+          idProductoidInput.name = `id_producto_id_${index}`;
+          idProductoidInput.value = producto.id;
+          idProductoidInput.type = 'hidden';
+          facturaForm.appendChild(idProductoidInput);
+        }
       });
-
+    
       const checkoutButton = document.querySelector('.checkout-button');
       checkoutButton.style.display = 'none';
       const facturaFormContainer = document.getElementById('factura-form');

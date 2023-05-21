@@ -10,9 +10,10 @@
     <!-- STATIC_URL -->
 </head>
 <body>
+    
     <!--Llamamos al navabar-->
     {% include 'components/navbar/navbar.html' %}
-
+    
     <div class = "contenedor">
         
         <div class="login-container">
@@ -20,12 +21,13 @@
             <form>
                 <h2>Iniciar sesión</h2>
                 <span class="alert alert-danger" id="error_msg">Credenciales invalidas</span>
+                <span class="alert alert-danger" id="error_msg2">Todos los campos son obligatorios</span>
                 <label for="username">Nombre de usuario</label>
                 <input type="text" id="username" name="username" required>
                 <label for="password">Contraseña</label>
 
                 <input type="password" id="password" name="password" required>
-                <p>No tienes cuenta <a href="registrar"><u>Registrate</u></a></p>
+                <p>¿No tienes cuenta? <a href="registrar"><u>Regístrate</u></a></p>
                 <button class = "boton"  onclick="login( event )">Iniciar sesión</button>
 
                 <a type = "submit" class = "volver" href="/" >Volver</a>
@@ -38,10 +40,12 @@
     <script>
 
         var error       = document.getElementById("error_msg")
+        var error2       = document.getElementById("error_msg2")
         var usuario     = document.getElementById("username")
         var contrasena  = document.getElementById("password")
 
         error.style.display = "none"
+        error2.style.display = "none"
 
         var credenciales = [
           {% for obj in credencial_list %}
@@ -62,58 +66,74 @@
           {% endfor %}
         ];
             
-        const login = ( event ) =>{
-            event.preventDefault()
 
-            const user = usuario.value
-            const pass = password.value
-
-            const credencial = credenciales.filter( cred => cred.usuario == user  )
+        const validacionesLogin = ( user, pass ) => {
             
-            if( credencial.length !== 0){
-                //Existe credencial
-                if( credencial[0].password == pass + "" ){
-                    //Existe
-                    const user =  obtenerUsuario( credencial[0].usuario, credencial[0].correo )
+            if( user === undefined || user.trim() === '' || pass.trim() === '' || pass === undefined ){
+                error2.style.display = 'block';
+                return true
+            }
+            error2.style.display = 'none';
+            return false
+        }
 
-                    if( user.length === 0 ){
 
-                        localStorage.removeItem("usuario");
-                        localStorage.setItem("usuario", JSON.stringify( user[0] ) );
-                        localStorage.setItem("login",true);
-                        window.location.href = '/'
-                        
-                    }else {
-                        localStorage.removeItem("usuario");
-                        localStorage.setItem("usuario", JSON.stringify( user[0] ) );
-                        localStorage.setItem("login",true);
+        const login = (event) => {
+            event.preventDefault();
+            
+            const user = usuario.value;
+            const pass = password.value;
 
-                        if( user[0].rol == "Administrador"){
-                            window.location.href = '/administrador'
-                        }
-                        else{
-                            window.location.href = '/'
-                        }
+            if ( validacionesLogin( user, pass ) ) return
+
+            const credencial = credenciales.find((cred) => cred.usuario === user);
+            
+            if (credencial && credencial.password === pass) {
+                // Credenciales válidas
+                const user = obtenerUsuario(credencial.usuario, credencial.correo);
+            
+                if (user.length === 0) {    
+                    const userInfo = {
+                        correo: credencial.correo,
+                        usuario: credencial.usuario,
+                        rol: "Cliente",
+                    };
+                
+                    localStorage.setItem("usuario", JSON.stringify(userInfo));
+                    localStorage.setItem("login", true);
+                    window.location.href = "/";
+                } else {
+                    localStorage.removeItem("usuario");
+
+                    const userInfoU = {
+                        correo: credencial.correo,
+                        usuario: credencial.usuario,
+                        rol: user[0].rol,
+                    };
+
+                    localStorage.setItem("usuario", JSON.stringify(userInfoU));
+                    localStorage.setItem("login", true);
+                
+                    if (user[0].rol == "Administrador") {
+                        window.location.href = "/administrador";
+                    } else {
+                        window.location.href = "/";
                     }
-                    error.style.display = "none"
-                }else{
-                    error.style.display = "block"
-                    localStorage.removeItem("usuario")
-                    localStorage.removeItem("login")
                 }
+                error.style.display = "none";
+            } else {
+                // Credenciales inválidas
+                error.style.display = "block";
+                localStorage.removeItem("usuario");
+                localStorage.removeItem("login");
             }
-            else{
-                error.style.display = "block"
-                localStorage.removeItem("usuario")
-                localStorage.removeItem("login")
-            }
-        }
-
-        const obtenerUsuario = ( user, correo ) => {
+        };
             
-            const usuario = usuarios.filter( us => correo === us.correo)
-            return usuario
-        }
+        const obtenerUsuario = (user, correo) => {
+            const usuario = usuarios.filter((us) => correo === us.correo);
+            return usuario;
+        };
+          
         
     </script>
 

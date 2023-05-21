@@ -18,16 +18,24 @@
         <h1 class = "titular">Menú</h1>
 
         <div class="menu-container">
-
+            {% comment %} Prueba {% endcomment %}
             <div class="menu-section hamburguesa">
                 <h2>Hamburguesas</h2>
                 <ul>
                     {% for producto in hamburguesas %}
-                    <li>
-                        <h3>{{ producto.nombre_prod }}</h3>
-                        <p>{{ producto.descripcion }}</p>
-                        <p class="price">${{ producto.precio }}</p>
-                    </li>
+                        {% if producto.cantidad > 0 %}
+                            <li>
+                                <div class="sub_item_contain">
+                                    <h3>{{ producto.nombre_prod }}</h3>
+                                    <p class="price">${{ producto.precio }}</p>
+                                </div>
+                                <div class="sub_item_contain2">
+                                    <p>{{ producto.descripcion }}</p>
+                                    <img    class="img-alimento"
+                                            src="{% static '/uploads/' %}{{producto.imagen}}">
+                                </div>   
+                            </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </div>
@@ -36,11 +44,19 @@
                 <h2>Perros</h2>
                 <ul>
                     {% for producto in perros%}
-                    <li>
-                        <h3>{{ producto.nombre_prod }}</h3>
-                        <p>{{ producto.descripcion }}</p>
-                        <p class="price">${{ producto.precio }}</p>
-                    </li>
+                        {% if producto.cantidad > 0 %}
+                            <li>
+                                <div class="sub_item_contain">
+                                    <h3>{{ producto.nombre_prod }}</h3>
+                                    <p class="price">${{ producto.precio }}</p>
+                                </div>
+                                <div class="sub_item_contain2">
+                                    <p>{{ producto.descripcion }}</p>
+                                    <img    class="img-alimento"
+                                            src="{% static '/uploads/' %}{{producto.imagen}}">
+                                </div>   
+                            </li>
+                        {% endif %}
                    {% endfor %}
                 </ul>
             </div>
@@ -49,11 +65,19 @@
                 <h2>Salchipapas</h2>
                 <ul>
                     {% for producto in salchipapas%}
-                    <li>
-                        <h3>{{ producto.nombre_prod }}</h3>
-                        <p>{{ producto.descripcion }}</p>
-                        <p class="price">${{ producto.precio }}</p>
-                    </li>
+                        {% if producto.cantidad > 0 %}
+                            <li>
+                                <div class="sub_item_contain">
+                                    <h3>{{ producto.nombre_prod }}</h3>
+                                    <p class="price">${{ producto.precio }}</p>
+                                </div>
+                                <div class="sub_item_contain2">
+                                    <p>{{ producto.descripcion }}</p>
+                                    <img    class="img-alimento"
+                                            src="{% static '/uploads/' %}{{producto.imagen}}">
+                                </div>   
+                            </li>
+                        {% endif %}
                    {% endfor %}
                 </ul>
             </div>
@@ -62,11 +86,19 @@
                 <h2>Fritangas</h2>
                 <ul>
                     {% for producto in fritangas %}
-                    <li>
-                        <h3>{{ producto.nombre_prod }}</h3>
-                        <p>{{ producto.descripcion }}</p>
-                        <p class="price">${{ producto.precio }}</p>
-                    </li>
+                        {% if producto.cantidad > 0 %}
+                            <li>
+                                <div class="sub_item_contain">
+                                    <h3>{{ producto.nombre_prod }}</h3>
+                                    <p class="price">${{ producto.precio }}</p>
+                                </div>
+                                <div class="sub_item_contain2">
+                                    <p>{{ producto.descripcion }}</p>
+                                    <img    class="img-alimento"
+                                            src="{% static '/uploads/' %}{{producto.imagen}}">
+                                </div>   
+                            </li>
+                        {% endif %}
                    {% endfor %}
                 </ul>
             </div>
@@ -74,11 +106,19 @@
                 <h2>Bebidas</h2>
                 <ul>
                     {% for producto in bebidas %}
-                    <li>
-                        <h3>{{ producto.nombre_prod }}</h3>
-                        <p>{{ producto.descripcion }}</p>
-                        <p class="price">${{ producto.precio }}</p>
-                    </li>
+                        {% if producto.cantidad > 0 %}
+                            <li>
+                                <div class="sub_item_contain">
+                                    <h3>{{ producto.nombre_prod }}</h3>
+                                    <p class="price">${{ producto.precio }}</p>
+                                </div>
+                                <div class="sub_item_contain2">
+                                    <p class="descripcion">{{ producto.descripcion }}</p>
+                                    <img    class="img-alimento"
+                                            src="{% static '/uploads/' %}{{producto.imagen}}">
+                                </div>   
+                            </li>
+                        {% endif %}
                    {% endfor %}
                 </ul>
             </div>

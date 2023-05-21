@@ -81,12 +81,13 @@ WSGI_APPLICATION = 'saborea_soft.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE' : 'django.db.backends.postgresql_psycopg2',
-        'NAME' : 'database_saborea_soft',
-        'USER' : 'user_saborea_soft',
-        'PASSWORD' : 'password_saborea_soft',
+        'NAME' : 'saboreasoft',
+        'USER' : 'juanpablotr14',
+        'PASSWORD' : '123456',
         'HOST' : 'localhost',
         'PORT' : '5432',
     }
+    
 }
 
 # Password validation

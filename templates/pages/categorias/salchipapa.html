@@ -19,15 +19,19 @@
 
         <div class = "tarjetas">
             {% for productos in object_list %}
-            <div class="card">
-                <img src="{% static '/uploads/'%}{{productos.imagen}}" alt="{{productos.nombre_prod}}" width="200px">
-                <div class="info">
-                    <h2>{{ productos.nombre_prod }}</h2>
-                    <p>{{ productos.descripcion }}</p>
-                    <p class="price">{{ productos.precio }}</p>
-                    <button class="order-btn" data-id="{{ productos.id_producto }}">Ordenar ahora</button>
-                </div>
-            </div>
+                {% if productos.cantidad > 0 %}
+                    <div class="card">
+                        <img src="{% static '/uploads/'%}{{productos.imagen}}" alt="{{productos.nombre_prod}}" width="200px">
+                        <div class="info">
+                            <h2>{{ productos.nombre_prod }}</h2>
+                            <p>{{ productos.descripcion }}</p>
+                            <p class="price">{{ productos.precio }}</p>
+                            <p class ="imagen" hidden>{{ productos.imagen }}</p>
+                            <p class ="cantidad" hidden>{{ productos.cantidad }}</p>
+                            <button class="order-btn" data-id="{{ productos.id_producto }}">Ordenar ahora</button>
+                        </div>
+                    </div>
+                {% endif %}
             {% endfor %}
         </div>
         <!--Llamamos al footer-->
@@ -38,9 +42,6 @@
         // Obtener todos los botones de "Ordenar ahora"
         const orderButtons = document.querySelectorAll('.order-btn');
       
-        // Obtener la tarjeta de pedido pendiente
-        const pedidoPendiente = document.querySelector('.pedido-pendiente');
-      
         // Agregar un evento de clic a cada botón
         orderButtons.forEach((button) => {
           button.addEventListener('click', () => {
@@ -48,6 +49,8 @@
             const productId = button.getAttribute('data-id');
             const productName = button.parentNode.querySelector('h2').textContent;
             const productPrice = button.parentNode.querySelector('.price').textContent;
+            const productImagen = button.parentNode.querySelector('.imagen').textContent;
+            const productCantidad = button.parentNode.querySelector('.cantidad').textContent;
       
             // Obtener el array de productos del local storage o crear uno nuevo si no existe
             let productsArray = JSON.parse(localStorage.getItem('productos')) || [];
@@ -57,10 +60,20 @@
                 id: productId,
                 nombre_prod: productName,
                 precio: productPrice,
+                imagen: productImagen,
+                cantidad: productCantidad
             });
       
             // Guardar el array de productos en el local storage
             localStorage.setItem('productos', JSON.stringify(productsArray));
+
+            // Cambiar el color del botón a verde
+            button.style.backgroundColor = '#a1c4fd';
+
+            // Esperar 2 segundos y luego restaurar el color original
+            setTimeout(() => {
+            button.style.backgroundColor = '';
+            }, 400);
     
           });
         });

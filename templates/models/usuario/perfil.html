@@ -37,7 +37,7 @@
         <div class="form-group">
             <label for="tipo_documento" class="txt_negrita">Tipo documento:</label>
             <select name="{{ form.tipo_documento.name }}" id="{{ form.tipo_documento.id }}" class = "form-control">
-                <option value="Cedula">Cedula</option>
+                <option value="Cedula">Cédula</option>
                 <option value="T. Identidad">T. Identidad</option>
             </select>
         </div>
@@ -74,23 +74,31 @@
 
         <div class="form-group">
             <label for="correo" class="txt_negrita">Correo:</label>
-            {{ form.correo|add_class:"form-control"|attr:"type:email"}}
+            {{ form.correo|add_class:"form-control"|attr:"type:email"|attr:"id:correo-input"|attr:"readonly:True"}}
         </div>
+        
 
         <div class = "botones">
             <button type="submit" class="btn btn-primary">Aceptar</button>
             <a href="./" type="submit" class="btn btn-primary">Cancelar</a>
-            <button id = "cerrar-sesion" class = "btn btn-primary">Log out</button>
+            <button id="cerrar-sesion" class = "btn btn-primary">Log out</button>
         </div>
     </form>
     
     <script>
+
         document.getElementById('cerrar-sesion').addEventListener('click', function(event) {
             event.preventDefault();
             localStorage.removeItem("usuario")
             localStorage.removeItem("login")
             window.location.href = '../login'
         });
+
+        var usuario = JSON.parse(localStorage.getItem("usuario"));
+        if (usuario) {
+            document.getElementById("correo-input").value = usuario.correo;
+        }
+
     </script>
 
     <!--Llamamos al footer-->

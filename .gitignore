@@ -6,6 +6,3 @@ __pycache__/
 
 # Archivos en MAC
 *.DS_Store
-
-# Carpeta static
-saborea_soft/static/uploads/static/uploads/

@@ -15,7 +15,7 @@
 
 .titulo{
   font-size: 40px;
-  font-weight: 550;
+  font-weight: 600;
   color: #333;
   font-family: 'Roboto', sans-serif;
   text-decoration: none;
@@ -56,7 +56,8 @@
 }
 
 .lista .a:hover {
-	background-color: #a1c4fd;
+	
+  	border-bottom: 1px solid black ;
 } 
 
 .lista .boton{
@@ -69,5 +70,5 @@
 }
 
 .lista .boton:hover {
-	background-color: #FFA500;
+  background-color: #ff8c00c5;
 }

@@ -29,23 +29,18 @@
           {% csrf_token %}
           <!-- {{ form.as_p }} -->
           <div class="form-group">
-            <label for="id_factura" class="txt_negrita">Id factura</label>
+            <label for="id_factura" class="txt_negrita">Id factura:</label>
             {{ form.id_factura|add_class:"form-control"|attr:"type:number"}}  
             <!-- Usamos la librería 'widget_tweaks' para crear esta caja de texto -->
           </div>
   
           <div class="form-group">
-            <label for="nit_restaurante" class="txt_negrita">NIT restaurante</label>
+            <label for="nit_restaurante" class="txt_negrita">NIT restaurante:</label>
             {{ form.nit_restaurante|add_class:"form-control"|attr:"type:number"}}
           </div>
 
           <div class="form-group">
-            <label for="fecha_compra" class="txt_negrita">Fecha compra</label>
-            {{ form.fecha_compra|add_class:"form-control"|attr:"type:date"}}
-          </div>
-
-          <div class="form-group">
-            <label for="total_pago" class="txt_negrita">Total pago</label>
+            <label for="total_pago" class="txt_negrita">Total pago:</label>
             {{ form.total_pago|add_class:"form-control"|attr:"type:number"}}
           </div>
       

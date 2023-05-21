@@ -20,7 +20,7 @@ form{
 form .botones{
     display: flex;
     margin-top: 30px;
-    margin-left: 140px;
+    margin-left: 30%;
 }
 
 .botones button{

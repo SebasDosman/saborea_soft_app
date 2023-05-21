@@ -24,35 +24,36 @@
 </head>
 <body>
     <div class = "contenedor">
+        
         <!--Llamamos al navabar-->
         {% include 'components/navbar/navbar.html' %}
-        
-        <div class="admin-panel" style="height: 540px;">
-
+        <div class="admin-panel">
+            
             <h2>Bienvenido Administrador</h2>
-
+            
             <ul>
                 <li><a href="/usuario">Acceder a Usuarios</a></li>
                 <li><a href="/credencial">Acceder a Credenciales</a></li>
                 <li><a href="/producto">Acceder a Productos</a></li>
                 <li><a href="/descuento">Acceder a Descuentos</a></li>
                 <li><a href="/factura">Acceder a Facturas</a></li>
+                <li><a href="/venta">Acceder a Ventas</a></li>
                 <li><a href="/restaurante">Acceder a Restaurate</a></li>
                 <li><a href="" id="cerrar-sesion">Cerrar sesión</a></li>
             </ul>
 
         </div>
 
-        <script>
-            document.getElementById('cerrar-sesion').addEventListener('click', function(event) {
-                event.preventDefault();
-                localStorage.removeItem("usuario")
-                localStorage.removeItem("login")
-                window.location.href = '../login'
-            });
-        </script>
         <!--Llamamos al footer-->
         {% include 'components/footer/footer.html' %}
     </div>
-        
+    
+    <script>
+        document.getElementById('cerrar-sesion').addEventListener('click', function(event) {
+            event.preventDefault();
+            localStorage.removeItem("usuario")
+            localStorage.removeItem("login")
+            window.location.href = '../login'
+        });
+    </script>
 </body>

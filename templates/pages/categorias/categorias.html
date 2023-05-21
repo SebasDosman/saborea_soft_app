@@ -13,85 +13,57 @@
     <div class = "contenedor">
         {% include 'components/navbar/navbar.html' %}
         
-        <h1 class = "titular text-center">Categorias</h1>
+        <h1 class = "titular text-center mt-4">Categorías</h1>
 
         <div class = "contenedor-todo">
-            <!--Llamamos al navabar-->
+            <!--Llamamos al navbar-->
 
         
             <div class = "container-cards">
-                <div class="card" style="--i:url({% static 'assets/salchipapa.png' %})">
-                    <div class="content">
-                        <h2>Salchipapa</h2>
-                        <a href="salchipapas">Acceder</a>
+                <a href="salchipapas">
+                    <div class="card" style="--i:url({% static 'assets/salchipapa.png' %})">
+                        <div class="content">
+                            <h2>Salchipapa</h2>
+                        </div>
                     </div>
-                </div>
+                </a>
             
-                <div class="card" style="--i:url({% static 'assets/hamburguesa.png' %})">
-                    <div class="content">
-                        <h2>Hamburguesa</h2>
-                        <a href="hamburguesas">Acceder</a>
+                <a href="hamburguesas">
+                    <div class="card" style="--i:url({% static 'assets/hamburguesa.png' %})">
+                        <div class="content">
+                            <h2>Hamburguesa</h2>
+                        </div>
                     </div>
-                </div>
+                </a>
             
-                <div class="card" style="--i:url({% static 'assets/perros.png' %})">
-                    <div class="content">
-                        <h2>Perros</h2>
-                        <a href="perros">Acceder</a>
+                <a href="perros">
+                    <div class="card" style="--i:url({% static 'assets/perros.png' %})">
+                        <div class="content">
+                            <h2>Perros</h2>
+                        </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="card" style="--i:url({% static 'assets/fritanga.png' %})">
-                    <div class="content">
-                        <h2>Fritanga</h2>
-                        <a href="fritangas">Acceder</a>
+                <a href="fritangas">
+                    <div class="card" style="--i:url({% static 'assets/fritanga.png' %})">
+                        <div class="content">
+                            <h2>Fritanga</h2>
+                        </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="card" style="--i:url({% static 'assets/bebidas.png' %})">
-                    <div class="content">
-                        <h2>Bebidas</h2>
-                        <a href="bebidas">Acceder</a>
+                <a href="bebidas">
+                    <div class="card" style="--i:url({% static 'assets/bebidas.png' %})">
+                        <div class="content">
+                            <h2>Bebidas</h2>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
 
-            <!--Llamamos al footer-->
         </div>
+        <!--Llamamos al footer-->
         {% include 'components/footer/footer.html' %}
     </div>
-    
-
-    <script>
-        // Obtener todos los botones de "Ordenar ahora"
-        const orderButtons = document.querySelectorAll('.order-btn');
-      
-        // Obtener la tarjeta de pedido pendiente
-        const pedidoPendiente = document.querySelector('.pedido-pendiente');
-      
-        // Agregar un evento de clic a cada botón
-        orderButtons.forEach((button) => {
-          button.addEventListener('click', () => {
-            // Obtener el nombre, precio y descripción del producto
-            const productName = button.parentNode.querySelector('h2').textContent;
-            const productPrice = button.parentNode.querySelector('.price').textContent;
-            const productDescription = button.parentNode.querySelector('p').textContent;
-      
-            // Obtener el array de productos del local storage o crear uno nuevo si no existe
-            let productsArray = JSON.parse(localStorage.getItem('productos')) || [];
-      
-            // Agregar el nuevo producto al array
-            productsArray.push({
-              nombre_prod: productName,
-              precio: productPrice,
-              descripcion: productDescription,
-            });
-      
-            // Guardar el array de productos en el local storage
-            localStorage.setItem('productos', JSON.stringify(productsArray));
-    
-          });
-        });
-    </script>
 
 </body>

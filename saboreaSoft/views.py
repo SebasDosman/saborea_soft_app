@@ -1,8 +1,11 @@
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 
+from django.db.models import F
+
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 
 from django.urls import reverse
 
@@ -10,6 +13,7 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from saboreaSoft.models import Descuento, Credencial, Factura, Producto, Restaurante, Usuario, Venta
+import uuid
 
 
 # Apartado inicio
@@ -36,24 +40,21 @@ def procesar_factura(request):
         nit_restaurante = request.POST.get('nit_restaurante_id')
         fecha_compra = request.POST.get('fecha_compra')
         total_pago = request.POST.get('total_pago')
-        restaurante = get_object_or_404(Restaurante, nit = nit_restaurante)
-        
-        # Crea una nueva instancia de Factura y guárdala en la base de datos
-        factura = Factura(id_factura=id_factura, nit_restaurante=restaurante, fecha_compra=fecha_compra, total_pago=total_pago)
-        factura.save()
-        
-        id_venta = request.POST.get('id_venta')[:10]
-        cantidad = request.POST.get('cantidad')
-        id_factura_id = request.POST.get('id_factura_id')
-        id_producto_id = request.POST.get('id_producto_id')
-        
-        factura_id = get_object_or_404(Factura, id_factura = id_factura_id)
-        producto_id = get_object_or_404(Producto, id_producto = id_producto_id)
-        
-        venta = Venta(id_venta=id_venta, cantidad=cantidad, id_factura=factura_id, id_producto=producto_id)
-        venta.save()
-        
-        return render(request, 'pages/pedidos/pedidos.html')
+        restaurante = get_object_or_404(Restaurante, nit=nit_restaurante)
+
+        factura = Factura.objects.create(id_factura=id_factura, nit_restaurante=restaurante, fecha_compra=fecha_compra, total_pago=total_pago)
+
+        for key in request.POST:
+            if key.startswith('id_venta_'):
+                index = key.split('_')[-1]
+              
+                id_venta = str(uuid.uuid4()) 
+                cantidad = request.POST.get(f'cantidad_{index}')
+                id_factura_id = request.POST.get(f'id_factura_id_{index}')
+                id_producto_id = request.POST.get(f'id_producto_id_{index}')
+
+                venta = Venta.objects.create(id_venta=id_venta, cantidad=cantidad, id_factura_id=id_factura_id, id_producto_id=id_producto_id)
+                Producto.objects.filter(id_producto=id_producto_id).update(cantidad=F('cantidad') - 1)
         
     return render(request, 'pages/pedidos/pedidos.html')
     
@@ -79,9 +80,9 @@ class CredencialCrear(SuccessMessageMixin, CreateView):
     form = Credencial 
     fields = "__all__" 
     success_message = 'Credencial creada correctamente!' 
-
     def get_success_url(self):
         return reverse('leer_credencial')
+    
     
 class UsuarioRegistrar(SuccessMessageMixin, CreateView):
     model = Credencial 
@@ -233,8 +234,17 @@ class ProductoCrear(SuccessMessageMixin, CreateView):
     fields = "__all__" 
     success_message = 'Producto creado correctamente!' 
 
-    def get_success_url(self):        
-        return reverse('leer_producto')
+    def form_valid(self, form):
+        producto = form.save(commit=False)
+        descuento_id = self.request.POST.get('id_descuento')
+        
+        if descuento_id:
+            descuento = Descuento.objects.get(pk=descuento_id)
+            precio_con_descuento = producto.precio - descuento.descuento
+            producto.precio = precio_con_descuento
+
+        producto.save()
+        return redirect('leer_producto')
 
 class ProductoDetalle(DetailView): 
     model = Producto
@@ -245,8 +255,17 @@ class ProductoActualizar(SuccessMessageMixin, UpdateView):
     fields = "__all__" 
     success_message = 'Producto actualizado correctamente!' 
 
-    def get_success_url(self):               
-        return reverse('leer_producto')
+    def form_valid(self, form):
+        producto = form.save(commit=False)
+        descuento_id = self.request.POST.get('id_descuento')
+        
+        if descuento_id:
+            descuento = Descuento.objects.get(pk=descuento_id)
+            precio_con_descuento = producto.precio - descuento.descuento
+            producto.precio = precio_con_descuento
+
+        producto.save()
+        return redirect('leer_producto')
 
 class ProductoEliminar(SuccessMessageMixin, DeleteView): 
     model = Producto 
@@ -273,16 +292,18 @@ class UsuarioCrear(SuccessMessageMixin, CreateView):
         return reverse('leer_usuario')
     
 # Apartado registro del perfil usuario
-class UsuarioPerfil(SuccessMessageMixin, CreateView, ListView):
+class UsuarioPerfil(SuccessMessageMixin, CreateView):
     model = Usuario
     form = Usuario
     fields = "__all__"
-    success_message = 'Usuario creado correctamente!'
+    success_message = 'Usuario creado correctamente!!'
     
+
     def get_success_url(self):
         return reverse('leer_usuario')
 
 class UsuarioDetalle(DetailView): 
+
     model = Usuario
 
 class UsuarioActualizar(SuccessMessageMixin, UpdateView):
@@ -412,3 +433,4 @@ class BebidasListView(ListView):
 
     def get_queryset(self):
         return Producto.objects.filter(categoria='Bebidas')
+    
