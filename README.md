@@ -15,11 +15,19 @@ The application was developed in the Django framework, using Python programming 
 To install the application, follow the steps below:
 1. Download or clone the repository from GitHub.
 2. Create and activate a virtual environment for the application.
-3. Install the project dependencies with the pip install -r requirements.txt command.
+3. Install the project dependencies with the command:
+```bash
+pip install -r requirements.txt
+```
 4. Configure the PostgreSQL database in the settings.py file.
-5. Run the migrations with the command python manage.py migrate.
-6. Load the initial data into the database with the python manage.py loaddata data.json command.
-7. Start the development server with the python manage.py runserver command.
+5. Run the migrations with the command:
+```bash
+python manage.py migrate
+```
+6. Start the development server with the command:
+```bash
+python manage.py runserver
+```
 Once the server is running, access the application from your web browser at http://localhost:8000/.
 
 ## Contributing
