@@ -1,31 +1,29 @@
 # SaboreaSoft-App
+The application "Saboreasoft - App" is a management system for restaurants that seeks to automate and improve the administration processes of a gastronomic business. With this tool, administrators will be able to centrally manage customer information, products, sales and discounts, as well as generate accurate and detailed invoices.
 
-La aplicación "Saboreasoft - App" es un sistema de gestión para restaurantes que busca automatizar y mejorar los procesos de administración de un negocio gastronómico. Con esta herramienta, los administradores podrán gestionar de manera centralizada la información de los clientes, productos, ventas y descuentos, además de generar facturas precisas y detalladas.
+# Features and functionalities
+- Registration and management of customer information.
+- Centralized management of product and discount information.
+- Registration and management of sales by customers.
+- Generation of accurate and detailed invoices.
+- User-friendly, colorful and user-friendly graphical interfaces.
 
-# Características y funcionalidades
-* Registro y gestión de información de los clientes.
-* Gestión centralizada de información de productos y descuentos.
-* Registro y gestión de ventas por parte de los clientes.
-* Generación de facturas precisas y detalladas.
-* Interfaces gráficas amigables, vistosas y de fácil manejo para el usuario.
+# Requirements and technologies used
+The application was developed in the Django framework, using Python programming language and PostgreSQL database. To run the application it is necessary to have a version of Python 3.6 or higher, and to have the pip package manager installed.
 
-# Requerimientos y tecnologías utilizadas
-La aplicación fue desarrollada en el framework Django, utilizando lenguaje de programación Python y base de datos PostgreSQL. Para ejecutar la aplicación es necesario contar con una versión de Python 3.6 o superior, y tener instalado el administrador de paquetes pip.
+# Installation and configuration
+To install the application, follow the steps below:
+1. Download or clone the repository from GitHub.
+2. Create and activate a virtual environment for the application.
+3. Install the project dependencies with the pip install -r requirements.txt command.
+4. Configure the PostgreSQL database in the settings.py file.
+5. Run the migrations with the command python manage.py migrate.
+6. Load the initial data into the database with the python manage.py loaddata data.json command.
+7. Start the development server with the python manage.py runserver command.
+Once the server is running, access the application from your web browser at http://localhost:8000/.
 
-# Instalación y configuración
-Para instalar la aplicación, siga los siguientes pasos:
+## Contributing
+Contributions are welcome! Please read the CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests.
 
-1. Descargue o clone el repositorio desde GitHub.
-2. Cree y active un entorno virtual para la aplicación.
-3. Instale las dependencias del proyecto con el comando pip install -r requirements.txt.
-4. Configure la base de datos PostgreSQL en el archivo settings.py.
-5. Ejecute las migraciones con el comando python manage.py migrate.
-6. Cargue los datos iniciales en la base de datos con el comando python manage.py loaddata data.json.
-7. Inicie el servidor de desarrollo con el comando python manage.py runserver.
-Una vez que el servidor esté en ejecución, acceda a la aplicación desde su navegador web en la dirección http://localhost:8000/.
-
-# Contribuir
-Si deseas contribuir con el desarrollo de la aplicación, puedes realizar un fork del repositorio y enviar tus contribuciones mediante un pull request. También puedes reportar errores o sugerir mejoras mediante la creación de un issue en GitHub.
-
-# Licencia
-La aplicación "Saboreasoft - App" está licenciada bajo la licencia MIT. Consulte el archivo LICENSE para obtener más detalles.
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
